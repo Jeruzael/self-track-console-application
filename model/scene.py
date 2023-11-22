@@ -37,7 +37,7 @@ class Dashboard(Scenes):
         print("~"*108)
         print(f"Total: {self.getTotalDur(data)}")
         print("~"*108)
-        print(f"[Q] Add Activity    [F] Edit   [W] Calendar   [E] Graph")
+        print(f"[Q]Add Activity    [F]Edit   [W]Calendar   [E]Graph")
         print("~"*108)
         self.select = input("Select =====> ")
 
