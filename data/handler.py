@@ -3,6 +3,10 @@ from datetime import timedelta as td
 from datetime import date
 from datetime import datetime as dt
 import time
+import os
+import sys
+from data.data import Sample
+import json
 
 class Timecapsule:
     __leapYearStart: int = 2020
@@ -65,7 +69,6 @@ class Timecapsule:
     __getDay = getDay
     
 class Usertime(Timecapsule):
-
     def manualTimeSet(self, year, month, day):
         self.setYear(year)
         self.setMonth(month)
@@ -73,3 +76,116 @@ class Usertime(Timecapsule):
 
     def getDateInfo(self):
         print(f"Year: {self.getYear()}\nMonth: {self.getMonth()}\nDay: {self.getDay()}")
+
+class Database:
+    __f: os
+    structure: {}
+
+    def __init__(self, year: str, month: str) -> None:   
+        self.structure = {}     
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        #self.buildStructure(year, month)
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def existentialChecker(self):    
+        try:            
+            self.__f = open('data/testing.txt', 'x+', encoding="utf-8")
+            self.__f.write('Testing file')        
+        except FileExistsError as err:
+            print(f"File exist: {err}")            
+        finally:
+            self.__f.close()            
+
+    def checkDb(self):
+        self.__f = open('data/database.json', 'r+', encoding="utf-8")
+        juice = json.load(self.__f)
+        print(juice)
+        self.__f.close()
+
+    def buildStructure(self, year: str = '2023', month: str = 'January'):
+        self.structure[year] = {
+            month: [
+                {
+                   "name": "",
+                    "dur": 0,
+                    "state": "",
+                    "start": "",
+                    "end": "",
+                    "type": "" 
+                }
+            ]
+        }
+
+    def getAll(self)-> object:
+        self.__f = open('data/database.json', "r+", encoding="utf-8")
+        juice = json.load(self.__f)
+        self.__f.close()
+        return juice
+
+    def addYear(self, year: str = "none"):
+         data = self.getAll()
+         self.structure = data
+         self.structure[year] = {
+            'January': [
+                {
+                   "name": "",
+                    "dur": 0,
+                    "state": "",
+                    "start": "",
+                    "end": "",
+                    "type": "" 
+                }
+            ]
+        }
+         self.__f = open('data/database.json', 'w+', encoding="utf-8")
+         json.dump(self.structure, self.__f)
+         self.__f.close()
+        
+    def addMonth(self,year: str = "none", month: str = "none"):
+         data = self.getAll()
+         self.structure = data
+         self.structure[year][month] = [
+                {
+                    "name": "",
+                    "dur": 0,
+                    "state": "",
+                    "start": "",
+                    "end": "",
+                    "type": "" 
+            } 
+         ]
+         self.__f = open('data/database.json', 'w+', encoding="utf-8")
+         json.dump(self.structure, self.__f)
+         self.__f.close()
+
+    def addDay(self,year: str = "none", month: str = "none"):
+         data = self.getAll()
+         self.structure = data
+         self.structure[year][month].append({
+            "name": "",
+            "dur": 0,
+            "state": "",
+            "start": "",
+            "end": "",
+            "type": "" 
+        }) 
+         self.__f = open('data/database.json', 'w+', encoding="utf-8")
+         json.dump(self.structure, self.__f)
+         self.__f.close()
+
+    def delYear(self, year: str = ""):
+        data = self.getAll()
+        self.structure = data
+        del self.structure[year]
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def delMonth(self, year: str = "", month: str = ""):
+        data = self.getAll()
+        self.structure = data
+        del self.structure[year][month]
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
