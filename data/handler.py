@@ -81,28 +81,47 @@ class Database:
     __f: os
     structure: {}
 
+    # Initialize the database of the application.
     def __init__(self, year: str, month: str) -> None:   
         self.structure = {}     
-        self.__f = open('data/database.json', 'w+', encoding="utf-8")
-        #self.buildStructure(year, month)
-        json.dump(self.structure, self.__f)
-        self.__f.close()
+        try:            
+            self.__f = open('data/database.json', 'x+', encoding="utf-8")
+            self.buildStructure(year, month)
+            json.dump(self.structure, self.__f)
+            self.__f.close()
+            print("Create a file: Database.json")
+        except FileExistsError as err:            
+            print(f"File exist: Getting the data")
+        finally:
+            self.__f = open('data/database.json', 'r+', encoding="utf-8")
+            self.structure = json.load(self.__f)
+            self.__f.close()
 
+    # Check the file if exist.
+    # If the file exist, it will read the file and extract the data.
+    # If the file doesn't exist, it will create a file in designated directory.
     def existentialChecker(self):    
         try:            
-            self.__f = open('data/testing.txt', 'x+', encoding="utf-8")
-            self.__f.write('Testing file')        
+            self.__f = open('data/database.json', 'w+', encoding="utf-8")
+            self.buildStructure(year, month)
+            json.dump(self.structure, self.__f)
+            self.__f.close()
         except FileExistsError as err:
-            print(f"File exist: {err}")            
+            self.__f.close()
+            print(f"File exist: Getting the data")
         finally:
-            self.__f.close()            
+            self.__f = open('data/database.json', 'r+', encoding="utf-8")
+            self.structure = json.load(self.__f)
+            self.__f.close()
 
+    # Check the contents of database
     def checkDb(self):
         self.__f = open('data/database.json', 'r+', encoding="utf-8")
         juice = json.load(self.__f)
         print(juice)
         self.__f.close()
 
+    # Create the JSON structure of the JSON file.
     def buildStructure(self, year: str = '2023', month: str = 'January'):
         self.structure[year] = {
             month: [
@@ -117,12 +136,14 @@ class Database:
             ]
         }
 
+    # Get all the information in the database.
     def getAll(self)-> object:
         self.__f = open('data/database.json', "r+", encoding="utf-8")
         juice = json.load(self.__f)
         self.__f.close()
         return juice
 
+    # Add year to the JSON file.
     def addYear(self, year: str = "none"):
          data = self.getAll()
          self.structure = data
@@ -141,7 +162,8 @@ class Database:
          self.__f = open('data/database.json', 'w+', encoding="utf-8")
          json.dump(self.structure, self.__f)
          self.__f.close()
-        
+    
+    # Add month to the JSON file.
     def addMonth(self,year: str = "none", month: str = "none"):
          data = self.getAll()
          self.structure = data
@@ -159,6 +181,7 @@ class Database:
          json.dump(self.structure, self.__f)
          self.__f.close()
 
+    # Add day to the JSON file.
     def addDay(self,year: str = "none", month: str = "none"):
          data = self.getAll()
          self.structure = data
@@ -174,6 +197,7 @@ class Database:
          json.dump(self.structure, self.__f)
          self.__f.close()
 
+    # Del an specific year in the database.
     def delYear(self, year: str = ""):
         data = self.getAll()
         self.structure = data
@@ -182,6 +206,7 @@ class Database:
         json.dump(self.structure, self.__f)
         self.__f.close()
 
+    # Del an specific month in the database.
     def delMonth(self, year: str = "", month: str = ""):
         data = self.getAll()
         self.structure = data

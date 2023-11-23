@@ -6,5 +6,4 @@ from data.handler import Database
 
 db = Database('2023', 'November')
 #db.checkDb()
-db.existentialChecker()
 db.checkDb()
