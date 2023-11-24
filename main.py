@@ -5,5 +5,6 @@ from data.handler import Usertime
 from data.handler import Database
 
 db = Database('2023', 'November')
-#db.checkDb()
+#db.addDay('2023','November')
+#db.addMonth('2023','December')
 db.checkDb()

@@ -96,11 +96,12 @@ class Database:
             self.__f = open('data/database.json', 'r+', encoding="utf-8")
             self.structure = json.load(self.__f)
             self.__f.close()
+            print(self.structure['2023'])
 
     # Check the file if exist.
     # If the file exist, it will read the file and extract the data.
     # If the file doesn't exist, it will create a file in designated directory.
-    def existentialChecker(self):    
+    def existentialChecker(self, year: str = "", month: str = ""):    
         try:            
             self.__f = open('data/database.json', 'w+', encoding="utf-8")
             self.buildStructure(year, month)
@@ -124,6 +125,7 @@ class Database:
     # Create the JSON structure of the JSON file.
     def buildStructure(self, year: str = '2023', month: str = 'January'):
         self.structure[year] = {
+            'year': year,
             month: [
                 {
                    "name": "",
@@ -136,7 +138,7 @@ class Database:
             ]
         }
 
-    # Get all the information in the database.
+    # Get all the information in the database and return the extracted data.
     def getAll(self)-> object:
         self.__f = open('data/database.json', "r+", encoding="utf-8")
         juice = json.load(self.__f)
