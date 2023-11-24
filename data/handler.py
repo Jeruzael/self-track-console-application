@@ -128,12 +128,16 @@ class Database:
             'year': year,
             month: [
                 {
-                   "name": "",
-                    "dur": 0,
-                    "state": "",
-                    "start": "",
-                    "end": "",
-                    "type": "" 
+                   "month": month,
+                   "day": 1, 
+                   "activities": [{
+                       "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                   }]
                 }
             ]
         }
@@ -152,12 +156,16 @@ class Database:
          self.structure[year] = {
             'January': [
                 {
-                   "name": "",
-                    "dur": 0,
-                    "state": "",
-                    "start": "",
-                    "end": "",
-                    "type": "" 
+                   "month": "January",
+                   "day": 1, 
+                   "activities": [{
+                       "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                   }]
                 }
             ]
         }
@@ -171,13 +179,17 @@ class Database:
          self.structure = data
          self.structure[year][month] = [
                 {
-                    "name": "",
-                    "dur": 0,
-                    "state": "",
-                    "start": "",
-                    "end": "",
-                    "type": "" 
-            } 
+                   "month": month,
+                   "day": 1, 
+                   "activities": [{
+                       "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                   }]
+                } 
          ]
          self.__f = open('data/database.json', 'w+', encoding="utf-8")
          json.dump(self.structure, self.__f)
@@ -188,13 +200,17 @@ class Database:
          data = self.getAll()
          self.structure = data
          self.structure[year][month].append({
-            "name": "",
-            "dur": 0,
-            "state": "",
-            "start": "",
-            "end": "",
-            "type": "" 
-        }) 
+                   "month": month,
+                   "day": len(self.structure[year][month]) + 1, 
+                   "activities": [{
+                       "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                   }]
+                }) 
          self.__f = open('data/database.json', 'w+', encoding="utf-8")
          json.dump(self.structure, self.__f)
          self.__f.close()
@@ -213,6 +229,63 @@ class Database:
         data = self.getAll()
         self.structure = data
         del self.structure[year][month]
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    # Del an specific day in the database.
+    def delDay(self, year: str = "", month: str = "", day: int = 0):    
+        data = self.getAll()
+        self.structure = data
+        del self.structure[year][month][day]
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActName(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: str = ""):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['name'] = value
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActDur(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: int = 0):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['dur'] = value
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActState(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: str = ""):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['state'] = value
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActStart(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: str = ""):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['start'] = value
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActEnd(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: str = ""):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['end'] = value
+        self.__f = open('data/database.json', 'w+', encoding="utf-8")
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+
+    def upActType(self, year: str = "", month: str = "", day: int = 0, act: int = 0, value: str = ""):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'][act]['type'] = value
         self.__f = open('data/database.json', 'w+', encoding="utf-8")
         json.dump(self.structure, self.__f)
         self.__f.close()

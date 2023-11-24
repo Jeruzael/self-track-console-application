@@ -1,0 +1,35 @@
+{
+    "2023": {
+        "year": "2023",
+        "November": [
+            {
+                "month": "November",
+                "day": 1,
+                "activities": [
+                    {
+                        "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                    }
+                ]
+            },
+            {
+                "month": "November",
+                "day": 2,
+                "activities": [
+                    {
+                        "name": "Python Programming",
+                        "dur": 250,
+                        "state": "Done",
+                        "start": "7:00 AM",
+                        "end": "8:00 PM",
+                        "type": "Endeavor"
+                    }
+                ]
+            }
+        ]
+    }
+}
