@@ -6,7 +6,7 @@ class Scenes:
 
     def __init__(self, sceneID) -> None:
         self.sc_ID = sceneID
-        self.sc_Date = self.getDate()
+        self.sc_Date = self.getDate()        
 
     def cls(self):
         os.system('clear')
@@ -24,8 +24,24 @@ class Dashboard(Scenes):
     type = "Type"
     total: int = 0
     select: str = ""
+    setType: str = ""
+    setAct: str = ""
 
-    def scene(self, data):        
+    def nav(self, data):
+        print("~"*108)
+        print(f"[Q]Add Activity    [F]Edit   [W]Calendar   [E]Graph")
+        print("~"*108)
+        self.select = input("Select: --> ")
+        match self.select:
+            case 'Q':                
+                return self.addActivity(data)
+            case 'q':
+                return self.addActivity(data)
+            case _:
+                return self.scene(data)
+            
+
+    def dashb(self, data):
         self.cls()
         print("-"*46, "SELF-TRACK APP", "-"*46)
         print(f"Date: {self.sc_Date}")
@@ -36,10 +52,11 @@ class Dashboard(Scenes):
             print(f"{data[items]['name']:41} | {data[items]['dur']:10} | {data[items]['state']:10} | {data[items]['start']:10} | {data[items]['end']:10} | {data[items]['type']:5}")
         print("~"*108)
         print(f"Total: {self.getTotalDur(data)}")
-        print("~"*108)
-        print(f"[Q]Add Activity    [F]Edit   [W]Calendar   [E]Graph")
-        print("~"*108)
-        self.select = input("Select =====> ")
+
+    def scene(self, data):        
+        self.dashb(data)
+        self.nav(data)
+        
 
     def getTotalDur(self, data)-> int:        
         for items in range(len(data)):
@@ -52,3 +69,21 @@ class Dashboard(Scenes):
         for items in range(len(data)):
             print(f"Contents: {items}")
             print(f"Contents: {data[items]['name']}")
+
+    def addActivity(self, data):
+        self.SetType(data)
+        self.SetAct(data)
+        
+    def SetType(self, data):
+        self.cls()
+        self.dashb(data)
+        print("~"*108)            
+        self.setType = input("[Type] ---> ")
+
+    def SetAct(self, data):
+        self.cls()
+        self.dashb(data)
+        print("~"*108)
+        self.setAct = input("[Activity] ---> ")
+        
+    

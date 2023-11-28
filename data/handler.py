@@ -80,13 +80,17 @@ class Usertime(Timecapsule):
 class Database:
     __f: os
     structure: {}
+    year: str = ""
+    month: str = ""
 
     # Initialize the database of the application.
     def __init__(self, year: str, month: str) -> None:   
         self.structure = {}     
+        self.year = year
+        self.month = month
         try:            
             self.__f = open('data/database.json', 'x+', encoding="utf-8")
-            self.buildStructure(year, month)
+            self.buildStructure(self.year, self.month)
             json.dump(self.structure, self.__f)
             self.__f.close()
             print("Create a file: Database.json")
@@ -148,6 +152,11 @@ class Database:
         juice = json.load(self.__f)
         self.__f.close()
         return juice
+    
+    # Get all activities and return the extracted data
+    def getActivities(self)->object:
+        self.structure = self.getAll()                
+        return self.structure[self.year][self.month][0]['activities']
 
     # Add year to the JSON file.
     def addYear(self, year: str = "none"):
