@@ -224,6 +224,19 @@ class Database:
          json.dump(self.structure, self.__f)
          self.__f.close()
 
+    # Add activity
+    def addAct(self, year: str = "2023", month: str = "November", day: int = 0):
+        data = self.getAll()
+        self.structure = data
+        self.structure[year][month][day]['activities'].append({
+                       "name": "",
+                        "dur": 0,
+                        "state": "",
+                        "start": "",
+                        "end": "",
+                        "type": ""
+                   })
+
     # Del an specific year in the database.
     def delYear(self, year: str = ""):
         data = self.getAll()

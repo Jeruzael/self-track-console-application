@@ -1,5 +1,7 @@
 from model.controller import Nav
+from model.scene import Welcome
 
-start = Nav()
+wc = Welcome(1)
+wc.welcome()
 
-start.startTracking()
+

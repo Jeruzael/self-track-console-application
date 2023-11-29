@@ -12,6 +12,7 @@ class Nav:
         self.dashboard = Dashboard(self.session)
         self.db = Database('2023','November')
 
+    # Generate a random id for session
     def setRandomSession(self)->str:
         alp = "abcdefghijklmnop"
         alp_b = "ABCDEFGHIJKLMNOP"
@@ -28,9 +29,11 @@ class Nav:
         sessionNo = "session-"+self.setHead+self.setBody+self.setFoot
         return sessionNo
 
+    # Return the session id
     def getSession(self)->str:
         return self.session
     
+    # Door
     def startTracking(self):
         self.dashboard.scene(self.db.getActivities())
         

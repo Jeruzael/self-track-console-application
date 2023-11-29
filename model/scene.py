@@ -87,3 +87,46 @@ class Dashboard(Scenes):
         self.setAct = input("[Activity] ---> ")
         
     
+class Welcome(Scenes):
+
+    year: str
+    month: str
+    day: int
+    wctxt: str
+    select: str
+
+    def __init__(self, sceneID) -> None:
+        super().__init__(sceneID)
+        self.year = "2023"
+        self.month = "November"
+        self.day = 0
+        self.wctxt = """
+Welcome User,
+
+I would like to thank you for trying this software.
+I hope this software helps you grow.
+
+Regards,
+Jeruzael/Developer
+"""
+        
+
+    def setYear(self, year: str = "2023"):
+        self.year = year
+    
+    def setMonth(self, month: str = "November"):
+        self.month = month
+    
+    def setDay(self, day: int = 0):
+        self.day = day
+    
+    def welcome(self):
+        self.cls()
+        print("-"*46, "SELF-TRACK APP", "-"*46)
+        print(self.wctxt)
+        print("-"*108)        
+    
+    def nav(self):
+        self.select = input("Set time & date: [Q] Manual   [W] Auto   ---> ")
+
+    
