@@ -1,4 +1,5 @@
 import os
+import time
 
 class Scenes:
     sc_ID: str
@@ -97,8 +98,8 @@ class Welcome(Scenes):
 
     def __init__(self, sceneID) -> None:
         super().__init__(sceneID)
-        self.year = "2023"
-        self.month = "November"
+        self.year = ""
+        self.month = ""
         self.day = 0
         self.wctxt = """
 Welcome User,
@@ -110,23 +111,61 @@ Regards,
 Jeruzael/Developer
 """
         
+    def scene(self):
+        self.welcome()
+        self.nav()
 
-    def setYear(self, year: str = "2023"):
-        self.year = year
+    def setYear(self):
+        self.welcome()
+        self.year = input("Year: ---> ")
     
-    def setMonth(self, month: str = "November"):
-        self.month = month
+    def setMonth(self):
+        self.welcome()
+        self.month = input("Month: ---> ")
     
-    def setDay(self, day: int = 0):
-        self.day = day
+    def setDay(self):
+        self.welcome()
+        self.day = input("Day: ---> ")
     
     def welcome(self):
         self.cls()
         print("-"*46, "SELF-TRACK APP", "-"*46)
+        if (self.year == ""):
+            print("Date: ") 
+        else:
+            print(f"{self.month} {self.day}, {self.year}")
         print(self.wctxt)
         print("-"*108)        
     
     def nav(self):
         self.select = input("Set time & date: [Q] Manual   [W] Auto   ---> ")
+        match (self.select):
+            case 'Q':
+                return self.setDateManual()
+            case 'q':
+                return self.setDateManual()
+            case 'W':
+                print("Auto")
+            case 'w':
+                print("Auto")
+            case _:
+                print('Exit')
 
-    
+    def setDateManual(self):        
+        self.setMonth()
+        self.setDay()
+        self.setYear()
+        self.loadingScr()
+
+    def showDate(self):
+        print(f"Date: {self.month} {self.day},{self.year}")
+
+    def loadingScr(self):                
+        for i in range(50):
+            self.welcome()
+            print("Configuring: pls wait :) " + f"#"*i + f" {(i+1)*2}%")
+            time.sleep(0.02)
+        for i in range(4):
+            self.welcome()
+            print(f"Starting: {3-i}")
+            time.sleep(1)
