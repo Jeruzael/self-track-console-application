@@ -80,27 +80,33 @@ class Usertime(Timecapsule):
 class Database:
     __f: os
     structure: {}
+    years: []
+    months: []    
     year: str = ""
     month: str = ""
+    newbie: bool = False
 
     # Initialize the database of the application.
-    def __init__(self, year: str, month: str) -> None:   
-        self.structure = {}     
-        self.year = year
-        self.month = month
-        try:            
-            self.__f = open('data/database.json', 'x+', encoding="utf-8")
-            self.buildStructure(self.year, self.month)
-            json.dump(self.structure, self.__f)
-            self.__f.close()
-            print("Create a file: Database.json")
-        except FileExistsError as err:            
-            print(f"File exist: Getting the data")
-        finally:
+    def __init__(self) -> None:   
+        self.structure = {}
+        self.years = []
+        self.months = []              
+        try:
+            print(f"File exist: Getting the data")                
             self.__f = open('data/database.json', 'r+', encoding="utf-8")
             self.structure = json.load(self.__f)
             self.__f.close()
+            self.getAllYear()
+            self.getAllMonths()
+            self.year = self.years[len(self.years) - 1]
+            self.month = self.months[len(self.months)-1]
             print(self.structure['2023'])
+            print(f"Current Year: {self.year}, Current month: {self.month}")
+        except FileNotFoundError as err:            
+            self.newbie = True
+            print("Newbie is True", err)
+        finally:                        
+            print("Initialized!")
 
     # Check the file if exist.
     # If the file exist, it will read the file and extract the data.
@@ -119,6 +125,26 @@ class Database:
             self.structure = json.load(self.__f)
             self.__f.close()
 
+    def getAllYear(self):
+        for k,v in self.structure.items():
+            self.years.append(k)
+            print(self.years)
+
+    def getAllMonths(self):
+        for k, v in self.structure[self.years[len(self.years)-1]].items():
+            self.months.append(k)
+            print(self.months)
+
+    def getCurrentYear(self)-> str:
+        return self.years[len(self.years)-1]
+    
+    def getCurrentMonth(self)->str:
+        return self.months[len(self.months)-1]
+    
+    def getCurrentDay(self)-> int:
+        m = self.structure[self.getCurrentYear()][self.getCurrentMonth()]
+        return self.structure[self.getCurrentYear()][self.getCurrentMonth()][len(m)-1]['day']
+
     # Check the contents of database
     def checkDb(self):
         self.__f = open('data/database.json', 'r+', encoding="utf-8")
@@ -127,25 +153,36 @@ class Database:
         self.__f.close()
 
     # Create the JSON structure of the JSON file.
-    def buildStructure(self, year: str = '2023', month: str = 'January'):
+    def buildStructure(self, year: str = '2023', month: str = 'January', day: int = 1):
         self.structure[year] = {
             'year': year,
             month: [
                 {
                    "month": month,
-                   "day": 1, 
+                   "day": day, 
                    "activities": [{
-                       "name": "",
-                        "dur": 0,
-                        "state": "",
+                       "name": "Self-track setup",
+                        "dur": 5,
+                        "state": "Done",
                         "start": "",
                         "end": "",
-                        "type": ""
+                        "type": "Endeavor"
                    }]
                 }
             ]
         }
 
+    def createFile(self, year: str = "2023", month: str = "November", day: int = 1):        
+        self.year = year
+        self.month = month
+        self.__f = open('data/database.json', 'x+', encoding="utf-8")
+        self.buildStructure(self.year, self.month, day)
+        json.dump(self.structure, self.__f)
+        self.__f.close()
+        self.getAllYear()
+        self.getAllMonths()
+        print("Created a file: Database.json")    
+        
     # Get all the information in the database and return the extracted data.
     def getAll(self)-> object:
         self.__f = open('data/database.json', "r+", encoding="utf-8")
@@ -163,17 +200,18 @@ class Database:
          data = self.getAll()
          self.structure = data
          self.structure[year] = {
+             'year': year,
             'January': [
                 {
                    "month": "January",
                    "day": 1, 
                    "activities": [{
-                       "name": "",
-                        "dur": 0,
-                        "state": "",
+                       "name": "Self-track setup",
+                        "dur": 5,
+                        "state": "Done",
                         "start": "",
                         "end": "",
-                        "type": ""
+                        "type": "Endeavor"
                    }]
                 }
             ]
@@ -191,12 +229,12 @@ class Database:
                    "month": month,
                    "day": 1, 
                    "activities": [{
-                       "name": "",
-                        "dur": 0,
-                        "state": "",
+                       "name": "Self-track setup",
+                        "dur": 5,
+                        "state": "Done",
                         "start": "",
                         "end": "",
-                        "type": ""
+                        "type": "Endeavor"
                    }]
                 } 
          ]
@@ -210,14 +248,14 @@ class Database:
          self.structure = data
          self.structure[year][month].append({
                    "month": month,
-                   "day": len(self.structure[year][month]) + 1, 
+                   "day": self.structure[year][month][len(self.structure[year][month]-1)]['day'], 
                    "activities": [{
-                       "name": "",
-                        "dur": 0,
-                        "state": "",
+                       "name": "Self-track setup",
+                        "dur": 5,
+                        "state": "Done",
                         "start": "",
                         "end": "",
-                        "type": ""
+                        "type": "Endeavor"
                    }]
                 }) 
          self.__f = open('data/database.json', 'w+', encoding="utf-8")
@@ -229,12 +267,12 @@ class Database:
         data = self.getAll()
         self.structure = data
         self.structure[year][month][day]['activities'].append({
-                       "name": "",
-                        "dur": 0,
-                        "state": "",
+                       "name": "Self-track setup",
+                        "dur": 5,
+                        "state": "Done",
                         "start": "",
                         "end": "",
-                        "type": ""
+                        "type": "Endeavor"
                    })
 
     # Del an specific year in the database.

@@ -6,14 +6,15 @@ class Scenes:
     sc_Date: str
 
     def __init__(self, sceneID) -> None:
-        self.sc_ID = sceneID
-        self.sc_Date = self.getDate()        
+        self.sc_ID = sceneID  
+        self.sc_Date = ""     
 
     def cls(self):
         os.system('clear')
 
-    def getDate(self)->str:
-        return "November 21, 2023"
+    def setDate(self, month, day, year):
+        self.sc_Date = f"{month} {day}, {year}"
+        
 
 
 class Dashboard(Scenes):

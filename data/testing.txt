@@ -1,1 +1,26 @@
-Testing file
+{
+    "2023": {
+        "year": "2023",
+        "November": [
+            {
+                "month": "November",
+                "day": 1,
+                "activities": [
+                    {
+                        "name": "Python programming",
+                        "dur": 200,
+                        "state": "Done",
+                        "start": "7:00 AM",
+                        "end": "12:00 PM",
+                        "type": "Endeavor"
+                    }
+                ]
+            },
+            {
+                "month": "November",
+                "day": 2,
+                "activities": []
+            }
+        ]
+    }
+}   

@@ -1,5 +1,6 @@
 import random
 from model.scene import Dashboard
+from model.scene import Welcome
 from data.handler import Database
 
 class Nav:    
@@ -10,7 +11,7 @@ class Nav:
     def __init__(self) -> None:
         self.session = self.setRandomSession()
         self.dashboard = Dashboard(self.session)
-        self.db = Database('2023','November')
+        self.welcome = Welcome(self.session)        
 
     # Generate a random id for session
     def setRandomSession(self)->str:
@@ -35,5 +36,16 @@ class Nav:
     
     # Door
     def startTracking(self):
-        self.dashboard.scene(self.db.getActivities())
+        self.db = Database()
+        print(self.db.newbie)
+        if(self.db.newbie):
+            print("Starting Welcome screen")
+            self.welcome.scene()
+            self.db.createFile(self.welcome.year, self.welcome.month, self.welcome.day)            
+            self.dashboard.setDate(self.db.getCurrentMonth(), self.db.getCurrentDay(), self.db.getCurrentYear())
+            self.dashboard.scene(self.db.getActivities())
+        else:
+            print("Starting Dashboard")
+            self.dashboard.setDate(self.db.getCurrentMonth(), self.db.getCurrentDay(), self.db.getCurrentYear())
+            self.dashboard.scene(self.db.getActivities())
         
