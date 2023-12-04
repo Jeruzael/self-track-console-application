@@ -1,7 +1,9 @@
 from model.controller import Nav
+from model.UI import SelftrackUI
 
 start = Nav()
-start.startTracking()
+ui = SelftrackUI()
+#start.startTracking()
 
-
+ui.start()
 
